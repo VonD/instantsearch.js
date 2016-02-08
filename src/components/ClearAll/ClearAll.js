@@ -3,6 +3,10 @@ import Template from '../Template.js';
 import {isSpecialClick} from '../../lib/utils.js';
 
 class ClearAll extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.url !== nextProps.url;
+  }
+
   handleClick(e) {
     if (isSpecialClick(e)) {
       // do not alter the default browser behavior

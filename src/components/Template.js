@@ -8,33 +8,45 @@ import mapValues from 'lodash/object/mapValues';
 
 import hogan from 'hogan.js';
 
-function Template(props) {
-  const useCustomCompileOptions = props.useCustomCompileOptions[props.templateKey];
-  const compileOptions = useCustomCompileOptions ? props.templatesConfig.compileOptions : {};
+import {isEqual} from 'lodash';
 
-  const content = renderTemplate({
-    templates: props.templates,
-    templateKey: props.templateKey,
-    compileOptions: compileOptions,
-    helpers: props.templatesConfig.helpers,
-    data: transformData(props.transformData, props.templateKey, props.data)
-  });
-
-  if (content === null) {
-    // Adds a noscript to the DOM but virtual DOM is null
-    // See http://facebook.github.io/react/docs/component-specs.html#render
-    return null;
+class Template extends React.Component {
+  constructor(props) {
+    super(props);
   }
 
-  const otherProps = omit(props, keys(Template.propTypes));
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props.data, nextProps.data);
+  }
 
-  return (
-    <div
-      {...otherProps}
-      className={props.cssClass}
-      dangerouslySetInnerHTML={{__html: content}}
-    />
-  );
+  render() {
+    const useCustomCompileOptions = this.props.useCustomCompileOptions[this.props.templateKey];
+    const compileOptions = useCustomCompileOptions ? this.props.templatesConfig.compileOptions : {};
+
+    const content = renderTemplate({
+      templates: this.props.templates,
+      templateKey: this.props.templateKey,
+      compileOptions: compileOptions,
+      helpers: this.props.templatesConfig.helpers,
+      data: transformData(this.props.transformData, this.props.templateKey, this.props.data)
+    });
+
+    if (content === null) {
+      // Adds a noscript to the DOM but virtual DOM is null
+      // See http://facebook.github.io/react/docs/component-specs.html#render
+      return null;
+    }
+
+    const otherProps = omit(this.props, keys(Template.propTypes));
+
+    return (
+      <div
+        {...otherProps}
+        className={this.props.cssClass}
+        dangerouslySetInnerHTML={{__html: content}}
+      />
+    );
+  }
 }
 
 Template.propTypes = {

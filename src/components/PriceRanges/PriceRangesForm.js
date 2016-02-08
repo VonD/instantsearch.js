@@ -1,6 +1,10 @@
 import React from 'react';
 
 class PriceRangesForm extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   getInput(type) {
     return (
       <label className={this.props.cssClasses.label}>

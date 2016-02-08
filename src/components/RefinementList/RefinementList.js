@@ -3,6 +3,7 @@ import cx from 'classnames';
 import {isSpecialClick} from '../../lib/utils.js';
 
 import Template from '../Template.js';
+import {isEqual} from 'lodash';
 
 class RefinementList extends React.Component {
   constructor(props) {
@@ -10,6 +11,10 @@ class RefinementList extends React.Component {
     this.state = {
       isShowMoreOpen: false
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextState, this.state) || !isEqual(this.props.facetValues, nextProps.facetValues);
   }
 
   refine(value) {
@@ -141,7 +146,6 @@ class RefinementList extends React.Component {
 RefinementList.propTypes = {
   Template: React.PropTypes.func,
   attributeNameKey: React.PropTypes.string,
-  createURL: React.PropTypes.func.isRequired,
   cssClasses: React.PropTypes.shape({
     active: React.PropTypes.string,
     depth: React.PropTypes.string,

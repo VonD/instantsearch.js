@@ -3,9 +3,15 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 function autoHideContainer(ComposedComponent) {
   class AutoHide extends React.Component {
+    constructor(props) {
+      super(props);
+      this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     componentDidMount() {
       this._hideOrShowContainer(this.props);
     }

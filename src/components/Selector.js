@@ -1,6 +1,10 @@
 import React from 'react';
 
 class Selector extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   handleChange(event) {
     this.props.setValue(event.target.value);
   }

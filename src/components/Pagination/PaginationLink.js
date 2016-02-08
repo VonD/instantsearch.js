@@ -1,6 +1,10 @@
 import React from 'react';
 
 class PaginationLink extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.url !== nextProps.url;
+  }
+
   render() {
     let {cssClasses, label, ariaLabel, handleClick, url} = this.props;
 

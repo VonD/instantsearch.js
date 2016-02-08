@@ -4,7 +4,13 @@ import Nouislider from 'react-nouislider';
 
 let cssPrefix = 'ais-range-slider--';
 
+import {isEqual} from 'lodash';
+
 class Slider extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props.range, nextProps.range) ||
+      !isEqual(this.props.start, nextProps.start);
+  }
 
   // we are only interested in rawValues
   handleChange(formattedValues, handleId, rawValues) {
